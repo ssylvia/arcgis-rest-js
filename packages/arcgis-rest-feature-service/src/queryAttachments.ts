@@ -12,7 +12,7 @@ import { IGetLayerOptions } from "./helpers.js";
 import { IAttachmentInfo } from "./getAttachments.js";
 
 /**
- * Attachment query request options. Additional arguments can be passed via the {@linkcode IQueryAttachmentOptions.params} property. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/enterprise/query-attachments-feature-service-layer/) for more information and a full list of parameters.
+ * Attachment query request options. Additional arguments can be passed via the {@linkcode IQueryAttachmentsOptions.params} property. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/enterprise/query-attachments-feature-service-layer/) for more information and a full list of parameters.
  */
 export interface IQueryAttachmentsOptions extends IGetLayerOptions {
   objectIds?: number[];
