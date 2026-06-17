@@ -40,4 +40,33 @@ describe("decorateThumbnail()", () => {
       decorateThumbnail(undefined as any, "https://portal.com")
     ).toBeUndefined();
   });
+
+  test("should decorate a public item thumbnail without a token", () => {
+    expect(
+      decorateThumbnail(
+        {
+          id: "abc123",
+          access: "public",
+          thumbnail: "thumbnail.png"
+        } as any,
+        "https://portal.com"
+      ).thumbnailUrl
+    ).toEqual("https://portal.com/content/items/abc123/info/thumbnail.png");
+  });
+
+  test("should decorate a private item thumbnail with a token query parameter", () => {
+    expect(
+      decorateThumbnail(
+        {
+          id: "abc123",
+          access: "private",
+          thumbnail: "thumbnail.png"
+        } as any,
+        "https://portal.com",
+        "ABC"
+      ).thumbnailUrl
+    ).toEqual(
+      "https://portal.com/content/items/abc123/info/thumbnail.png?token=ABC"
+    );
+  });
 });
