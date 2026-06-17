@@ -1,7 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { determineOwner } from "../../src/items/helpers";
+import { determineOwner, decorateThumbnail } from "../../src/items/helpers";
 import { UserSession } from "@esri/arcgis-rest-auth/src";
 
 describe("determineOwner()", () => {
@@ -15,6 +15,31 @@ describe("determineOwner()", () => {
       })
       .catch(e => {
         fail(e);
+      });
+
+      describe("decorateThumbnail()", () => {
+        it("should return null/undefined if item is null", () => {
+          expect(decorateThumbnail(null, "https://portal.com")).toBeNull();
+          expect(decorateThumbnail(undefined, "https://portal.com")).toBeUndefined();
+        });
+
+        it("should append a token query param to private item thumbnail urls", () => {
+          const item: any = {
+            id: "3ef",
+            thumbnail: "thumbnail.png",
+            access: "private"
+          };
+
+          const result = decorateThumbnail(
+            item,
+            "https://portal.com/sharing/rest",
+            "ABC123"
+          );
+
+          expect(result.thumbnailUrl).toEqual(
+            "https://portal.com/sharing/rest/content/items/3ef/info/thumbnail.png?token=ABC123"
+          );
+        });
       });
   });
 

@@ -292,6 +292,36 @@ export function determineOwner(requestOptions: any): Promise<string> {
 }
 
 /**
+ * Returns an item with its full thumbnail URL.
+ *
+ * @param item - The item to decorate
+ * @param portal - The portal URL
+ * @param token - Optional token to append if the item is private
+ * @returns The item with decorated thumbnail
+ */
+export function decorateThumbnail(
+  item: IItem,
+  portal: string,
+  token?: string
+): IItem {
+  if (!item) return item;
+
+  let thumbnailUrl: string = null;
+
+  if (typeof item.thumbnail === "string") {
+    thumbnailUrl = `${portal}/content/items/${item.id}/info/${item.thumbnail}`;
+    if (thumbnailUrl && item.access !== "public" && token) {
+      thumbnailUrl += `?token=${token}`;
+    }
+  }
+
+  return {
+    ...item,
+    ...(thumbnailUrl ? { thumbnailUrl } : {})
+  };
+}
+
+/**
  * checks if the extent is a valid BBox (2 element array of coordinate pair arrays)
  * @param extent
  * @returns
