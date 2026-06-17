@@ -16,31 +16,6 @@ describe("determineOwner()", () => {
       .catch(e => {
         fail(e);
       });
-
-      describe("decorateThumbnail()", () => {
-        it("should return null/undefined if item is null", () => {
-          expect(decorateThumbnail(null, "https://portal.com")).toBeNull();
-          expect(decorateThumbnail(undefined, "https://portal.com")).toBeUndefined();
-        });
-
-        it("should append a token query param to private item thumbnail urls", () => {
-          const item: any = {
-            id: "3ef",
-            thumbnail: "thumbnail.png",
-            access: "private"
-          };
-
-          const result = decorateThumbnail(
-            item,
-            "https://portal.com/sharing/rest",
-            "ABC123"
-          );
-
-          expect(result.thumbnailUrl).toEqual(
-            "https://portal.com/sharing/rest/content/items/3ef/info/thumbnail.png?token=ABC123"
-          );
-        });
-      });
   });
 
   it("should use item owner if owner is not passed", done => {
@@ -55,6 +30,31 @@ describe("determineOwner()", () => {
       })
       .catch(e => {
         fail(e);
+      });
+  });
+
+  describe("decorateThumbnail()", () => {
+      it("should return null/undefined if item is null", () => {
+        expect(decorateThumbnail(null, "https://portal.com")).toBeNull();
+        expect(decorateThumbnail(undefined, "https://portal.com")).toBeUndefined();
+      });
+
+      it("should append a token query param to private item thumbnail urls", () => {
+        const item: any = {
+          id: "3ef",
+          thumbnail: "thumbnail.png",
+          access: "private"
+        };
+
+        const result = decorateThumbnail(
+          item,
+          "https://portal.com/sharing/rest",
+          "ABC123"
+        );
+
+        expect(result.thumbnailUrl).toEqual(
+          "https://portal.com/sharing/rest/content/items/3ef/info/thumbnail.png?token=ABC123"
+        );
       });
   });
 
